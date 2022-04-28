@@ -1,0 +1,123 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #121213;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    padding: 0 16px;
+    height: var(--header-height);
+    color: var(--color-tone-1);
+    border-bottom: 1px solid #3a3a3c;
+}
+
+.menu-right {
+    display: flex;
+    width: 70px;
+    justify-content: flex-end;
+}
+
+.title {
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 100%;
+    letter-spacing: 0.01em;
+    text-align: center;
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    color: white;
+    margin: 0;
+    padding: 10px;
+}
+
+.container {
+    margin-top: 130px;
+}
+
+.tile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.tile {
+    width: 50px;
+    height: 50px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: bold;
+    vertical-align: middle;
+    box-sizing: border-box;
+    color: white;
+    text-transform: uppercase;
+    user-select: none;
+    margin-right: 5px;
+}
+
+.tile-present {
+    background-color: #b59f3b;
+}
+
+.tile-correct {
+    background-color: #538d4e;
+}
+
+.tile-absent {
+    background-color: #3a3a3c;
+}
+
+
+.button {
+    font-family: inherit;
+    font-weight: bold;
+    border: 0;
+    padding: 0;
+    margin: 0 6px 0 0;
+    height: 58px;
+    border-radius: 4px;
+    cursor: pointer;
+    user-select: none;
+    background-color: #818384;
+    color: white;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    -webkit-tap-highlight-color: rgba(0,0,0,0.3);
+}
+
+.keyboard {
+    margin: 0 8px;
+    user-select: none;
+    max-width: 500px;
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.row {
+    display: flex;
+    width: 100%;
+    margin: 0 auto 8px;
+    touch-action: manipulation;
+}
+
+
+.half {
+    flex: 0.5;
+}
