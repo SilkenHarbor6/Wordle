@@ -24,6 +24,6 @@ namespace Wordlzor.Components
         public string Type { get; set; }
 
         // Get css based on type
-        public string GetCss() => string.IsNullOrEmpty(Type) ? "tile-absent" : $"tile-{Type.ToLower()}";
+        public string GetCss() => string.IsNullOrEmpty(Type) ? "tile-empty" : $"tile-{Type.ToLower()}";
     }
 }

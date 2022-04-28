@@ -40,7 +40,7 @@ html, body {
 }
 
 .container {
-    margin-top: 130px;
+    margin-top: 100px;
 }
 
 .tile-container {
@@ -53,8 +53,8 @@ html, body {
 }
 
 .tile {
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     display: inline-flex;
     justify-content: center;
     align-items: center;
@@ -79,6 +79,10 @@ html, body {
 
 .tile-absent {
     background-color: #3a3a3c;
+}
+
+.tile-empty {
+    border: 2px solid #3a3a3c;
 }
 
 
