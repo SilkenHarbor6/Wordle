@@ -21,5 +21,37 @@ namespace Wordlzor.Components
         public List<string> SecondRow = new List<string>() { "a", "s", "d", "f", "g", "h", "j", "k", "l", };
         public List<string> ThirdRow = new List<string>() { "👌", "z", "x", "c", "v", "b", "n", "m", "⬅️" };
 
+        [Parameter]
+        public EventCallback<string> OnKeyPressed { get; set; }
+
+        [Parameter]
+        public List<string> AbsentKeys { get; set; } = new();
+        [Parameter]
+        public List<string> PresentKeys { get; set; } = new();
+        [Parameter]
+        public List<string> CorrectKeys { get; set; } = new();
+
+        public string GetCss(string key)
+        {
+            if (AbsentKeys.Contains(key))
+            {
+                return "button-absent";
+            }
+            else if (PresentKeys.Contains(key))
+            {
+                return "button-present";
+            }
+            else if (CorrectKeys.Contains(key))
+            {
+                return "button-correct";
+            }
+
+            return "";
+        }
+
+        public void KeyClicked(string key)
+        {
+            OnKeyPressed.InvokeAsync(key);
+        }
     }
 }

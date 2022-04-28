@@ -2,21 +2,21 @@
     <div class="row">
         @foreach (var key in FirstRow)
         {
-            <button class="button">@key</button>
+            <button @onclick="() => KeyClicked(key)" class="button @GetCss(key)">@key</button>
         }
     </div>
     <div class="row">
         <div class="spacer half"></div>
         @foreach (var key in SecondRow)
         {
-            <button class="button">@key</button>
+            <button @onclick="() => KeyClicked(key)" class="button @GetCss(key)">@key</button>
         }
         <div class="spacer half"></div>
     </div>
     <div class="row">
         @foreach (var key in ThirdRow)
         {
-            <button class="button">@key</button>
+            <button @onclick="() => KeyClicked(key)" class="button @GetCss(key)">@key</button>
         }
     </div>
 </div>

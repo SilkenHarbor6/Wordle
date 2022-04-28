@@ -5,6 +5,7 @@ html, body {
     margin: 0;
     padding: 0;
     background-color: #121213;
+    transition: all 0.3s ease;
 }
 
 .header {
@@ -85,6 +86,9 @@ html, body {
     border: 2px solid #3a3a3c;
 }
 
+.tile-idle {
+    border: 2px solid #565758 !important;
+}
 
 .button {
     font-family: inherit;
@@ -104,6 +108,18 @@ html, body {
     align-items: center;
     text-transform: uppercase;
     -webkit-tap-highlight-color: rgba(0,0,0,0.3);
+}
+
+.button-present {
+    background-color: #b59f3b;
+}
+
+.button-correct {
+    background-color: #538d4e;
+}
+
+.button-absent {
+    background-color: #3a3a3c;
 }
 
 .keyboard {

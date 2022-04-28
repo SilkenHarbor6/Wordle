@@ -1,54 +1,16 @@
 ﻿
 <div class="container">
-
-
-    <div class="tile-container">
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-    </div>
-
-    <div class="tile-container">
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-    </div>
-
-    <div class="tile-container">
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-    </div>
-
-    <div class="tile-container">
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-    </div>
-
-    <div class="tile-container">
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-    </div>
-
-    <div class="tile-container">
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-        <Tile Letter="" Type=""></Tile>
-    </div>
+    @for (var i = 0; i < Iterations; i++)
+    {
+        <div class="tile-container">
+            @for (var j = 0; j < 5; j++)
+            {
+                var letter = @GetLetterFromWord(j, i);
+                <Tile Letter="@letter" Type="@GetTypeFromWord(j, letter, i)"></Tile>
+            }
+        </div>
+    }
 </div>
 
-<Keyboard />
+<Keyboard OnKeyPressed=OnKeyboardClick />
+
