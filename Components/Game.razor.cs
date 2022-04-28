@@ -23,6 +23,10 @@ namespace Wordlzor.Components
         private int CurrentIteration = 0;
         private Dictionary<int, string> wordDictionary = new Dictionary<int, string>();
 
+        public List<string> MatchedWords { get; set; } = new();
+        public List<string> PresentWords { get; set; } = new();
+        public List<string> AbsentWords { get; set; } = new();
+
         public void OnKeyboardClick(string key)
         {
             if (!finished)
@@ -123,15 +127,41 @@ namespace Wordlzor.Components
 
             if (indexInputLetterWord == indexWordLetter)
             {
+                SetMatchedLists(letter, "Correct");
                 return "Correct";
             }
             else if (word2.ToLowerInvariant().Contains(letter))
             {
+                SetMatchedLists(letter, "Present");
                 return "Present";
             }
             else
             {
+                SetMatchedLists(letter, "Absent");
                 return "Absent";
+            }
+        }
+
+        private void SetMatchedLists(string key, string type)
+        {
+            // Remove from all list, then re-add
+            MatchedWords.RemoveAll(x => x == key);
+            PresentWords.RemoveAll(x => x == key);
+            AbsentWords.RemoveAll(x => x == key);
+
+            switch (type)
+            {
+                case "Correct":
+                    MatchedWords.Add(key);
+                    break;
+                case "Present":
+                    PresentWords.Add(key);
+                    break;
+                case "Absent":
+                    AbsentWords.Add(key);
+                    break;
+                default:
+                    break;
             }
         }
     }
