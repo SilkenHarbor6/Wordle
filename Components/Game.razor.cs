@@ -72,20 +72,26 @@ namespace Wordlzor.Components
         #region Injects
 
         [Inject]
-        public HttpClient HttpClient { get; set; }
+        public HttpClient? HttpClient { get; set; }
+
+        [Inject]
+        public IJSRuntime JSRuntime { get; set; }
 
         #endregion
 
         #region Overrides
 
-        protected override async Task OnInitializedAsync()
-        {
-            _wordList = await HttpClient.GetFromJsonAsync<List<string>>("data/words.json");
-        }
+        protected override async Task OnInitializedAsync() => _wordList = await HttpClient.GetFromJsonAsync<List<string>>("data/words.json");
 
         #endregion
 
-        public void OnKeyboardClick(string key)
+        #region Events
+
+        /// <summary>
+        /// Function to handle on key presses
+        /// </summary>
+        /// <param name="key">Key pressed</param>
+        public async Task OnKeyboardClick(string key)
         {
             // Check if the game is not finished
             if (!_finished)
@@ -120,10 +126,27 @@ namespace Wordlzor.Components
                                 {
                                     // Update game state to not continue
                                     _finished = true;
+
+                                    // Show message
+                                    await JSRuntime.InvokeVoidAsync("alert", "Congratulations! You guessed the word!");
+                                }
+
+                                // Check if we are on the last iteration
+                                if (_currentIteration + 1 == _iterations)
+                                {
+                                    // Update game state to not continue
+                                    _finished = true;
+
+                                    // Show message
+                                    await JSRuntime.InvokeVoidAsync("alert", "Unlucky! Try again!");
                                 }
 
                                 // In any case, if the word is correct and we didn't guess, next iteration
                                 _currentIteration++;
+                            }
+                            else
+                            {
+                                await JSRuntime.InvokeVoidAsync("alert", "Not a valid word!");
                             }
                         }
                     }
@@ -152,6 +175,10 @@ namespace Wordlzor.Components
                 StateHasChanged();
             }
         }
+
+        #endregion
+
+        #region Utilities
 
         /// <summary>
         /// Function that returns letter from the current iteration's word
@@ -288,5 +315,7 @@ namespace Wordlzor.Components
                     break;
             }
         }
+
+        #endregion
     }
 }

@@ -17,20 +17,60 @@ namespace Wordlzor.Components
 {
     public partial class Keyboard
     {
-        public List<string> FirstRow = new List<string>() { "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", };
-        public List<string> SecondRow = new List<string>() { "a", "s", "d", "f", "g", "h", "j", "k", "l", };
-        public List<string> ThirdRow = new List<string>() { "👌", "z", "x", "c", "v", "b", "n", "m", "⬅️" };
+        #region Keyboard rows
 
+        /// <summary>
+        /// The rows of the keyboard
+        /// </summary>
+        private readonly List<string> FirstRow = new List<string>() { "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", };
+
+        /// <summary>
+        /// The rows of the keyboard
+        /// </summary>
+        private readonly List<string> SecondRow = new List<string>() { "a", "s", "d", "f", "g", "h", "j", "k", "l", };
+
+        /// <summary>
+        /// The rows of the keyboard
+        /// </summary>
+        private readonly List<string> ThirdRow = new List<string>() { "👌", "z", "x", "c", "v", "b", "n", "m", "⬅️" };
+
+        #endregion
+
+        #region Parameters
+
+        /// <summary>
+        /// The current word being typed
+        /// </summary>
         [Parameter]
         public EventCallback<string> OnKeyPressed { get; set; }
 
+        /// <summary>
+        /// Absent keys from game
+        /// </summary>
         [Parameter]
         public List<string> AbsentKeys { get; set; } = new();
+
+        /// <summary>
+        /// Present keys from game
+        /// </summary>
         [Parameter]
         public List<string> PresentKeys { get; set; } = new();
+
+        /// <summary>
+        /// Correct keys from game
+        /// </summary>
         [Parameter]
         public List<string> CorrectKeys { get; set; } = new();
 
+        #endregion
+
+        #region Utilities
+
+        /// <summary>
+        /// Gets the keyboard css depending ont the keys introduced
+        /// </summary>
+        /// <param name="key">Key from keyboard</param>
+        /// <returns>Css class</returns>
         public string GetCss(string key)
         {
             if (AbsentKeys.Contains(key))
@@ -46,12 +86,19 @@ namespace Wordlzor.Components
                 return "button-correct";
             }
 
-            return "";
+            return string.Empty;
         }
 
-        public void KeyClicked(string key)
-        {
-            OnKeyPressed.InvokeAsync(key);
-        }
+        #endregion
+
+        #region Events
+
+        /// <summary>
+        /// Event to callback game's event on key pressed
+        /// </summary>
+        /// <param name="key"></param>
+        public void KeyClicked(string key) => OnKeyPressed.InvokeAsync(key);
+
+        #endregion
     }
 }
