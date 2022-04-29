@@ -98,9 +98,6 @@ namespace Wordlzor.Components
         {
             // Load word list
             _wordList = await HttpClient.GetFromJsonAsync<List<string>>("data/words.json");
-
-            // Focus when initializing
-            await JSRuntime.InvokeVoidAsync("window.FocusElement", _mainContainer);
         }
 
         #endregion
@@ -169,7 +166,8 @@ namespace Wordlzor.Components
                                 await JSRuntime.InvokeVoidAsync("alert", "Not a valid word!");
                             }
                         }
-                        else {
+                        else
+                        {
                             await JSRuntime.InvokeVoidAsync("alert", "Fill all the letters, it's a 5 letter word!");
                         }
                     }
@@ -253,7 +251,6 @@ namespace Wordlzor.Components
                 {
                     // Return letter for the index we are in the loop, we have to check for the length
                     return wordFromDictionary.Length > index ? wordFromDictionary[index].ToString() : "";
-
                 }
                 // This is for the older iterations
                 else
@@ -371,6 +368,12 @@ namespace Wordlzor.Components
                 default:
                     break;
             }
+        }
+
+        public async Task Focus()
+        {
+            // Focus when initializing
+            await JSRuntime.InvokeVoidAsync("window.FocusElement", _mainContainer);
         }
 
         #endregion

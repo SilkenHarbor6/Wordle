@@ -181,3 +181,47 @@ html, body {
 .half {
     flex: 0.5;
 }
+
+a {
+    color: white;
+}
+
+
+
+.overlay {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 3000;
+    justify-content: center;
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.content {
+    border-radius: 8px;
+    border: 1px solid #1a1a1b;
+    background-color: #121213;
+    color: #ffffff;
+    box-shadow: 0 4px 23px 0 rgb(0 0 0 / 20%);
+    overflow-y: auto;
+    animation: SlideIn 200ms;
+    max-width: 500px;
+    padding: 16px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    margin-top: 50px;
+}
+
+.d-none {
+    display: none !important;
+}
+
+.d-inline {
+    display: inline !important;
+}
