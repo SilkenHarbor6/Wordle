@@ -8,10 +8,40 @@ html, body {
     transition: all 0.3s ease;
 }
 
+* {
+    transition: all 250ms;
+    text-rendering: optimizeLegibility;
+}
+
 .loader {
     display: flex;
     justify-content: center;
-    margin-top: 50%;
+    width: 100vw;
+    height: 100vh;
+    align-items: center;
+}
+
+.loader-img {
+    width: 80px;
+    height: 80px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
 }
 
 .header {
