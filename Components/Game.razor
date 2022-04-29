@@ -1,14 +1,18 @@
-﻿<div class="container">
-    @for (var i = 0; i < _iterations; i++)
-    {
-        <div class="tile-container">
-            @for (var j = 0; j < 5; j++)
-            {
-                var letter = @GetLetterFromWord(j, i);
-                <Tile Letter="@letter" Type="@GetTypeFromWord(j, letter, i)"></Tile>
-            }
-        </div>
-    }
-</div>
+﻿<div class="main-container" tabindex="0" @onkeydown=@KeyDown>
+    <Wordlzor.Components.Header />
 
-<Keyboard OnKeyPressed=OnKeyboardClick AbsentKeys=AbsentLetters CorrectKeys=MatchedLetters PresentKeys=PresentLetters />
+    <div class="container">
+        @for (var i = 0; i < _iterations; i++)
+        {
+            <div class="tile-container">
+                @for (var j = 0; j < 5; j++)
+                {
+                    var letter = @GetLetterFromWord(j, i);
+                    <Tile Letter="@letter" Type="@GetTypeFromWord(j, letter, i)"></Tile>
+                }
+            </div>
+        }
+    </div>
+
+    <Keyboard OnKeyPressed=OnKeyboardClick AbsentKeys=AbsentLetters CorrectKeys=MatchedLetters PresentKeys=PresentLetters />
+</div>

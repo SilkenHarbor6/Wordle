@@ -44,6 +44,10 @@ html, body {
     margin-top: 100px;
 }
 
+.main-container:focus-visible {
+    outline: none !important;
+}
+
 .tile-container {
     display: flex;
     justify-content: center;

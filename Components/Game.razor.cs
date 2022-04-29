@@ -164,15 +164,45 @@ namespace Wordlzor.Components
                 // Create a new iteration
                 else
                 {
-                    // Create new word
-                    var newWord = key;
+                    if (key == "⬅️" || key == "👌")
+                    {
+                        // Skip in this case
+                    }
+                    else
+                    {
+                        // Create new word
+                        var newWord = key;
 
-                    // Add to the dictionary of words with the new iteration
-                    _wordDictionary[_currentIteration] = newWord;
+                        // Add to the dictionary of words with the new iteration
+                        _wordDictionary[_currentIteration] = newWord;
+                    }
                 }
 
                 // Update UI, this will trigger GetLetterFromWord and GetTypeFromWord
                 StateHasChanged();
+            }
+        }
+
+        protected async Task KeyDown(KeyboardEventArgs e)
+        {
+            // If not finished
+            if (!_finished)
+            {
+                // Edge case for enter
+                if (e.Key.ToLowerInvariant() == "enter")
+                {
+                    await OnKeyboardClick("👌");
+                }
+                // Edge case for delete
+                else if (e.Key.ToLowerInvariant() == "backspace")
+                {
+                    await OnKeyboardClick("⬅️");
+                }
+                // Send normal key
+                else
+                {
+                    await OnKeyboardClick(e.Key);
+                }
             }
         }
 
