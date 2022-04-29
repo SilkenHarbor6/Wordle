@@ -1,6 +1,6 @@
 ﻿
 <div class="container">
-    @for (var i = 0; i < Iterations; i++)
+    @for (var i = 0; i < _iterations; i++)
     {
         <div class="tile-container">
             @for (var j = 0; j < 5; j++)
@@ -12,5 +12,5 @@
     }
 </div>
 
-<Keyboard OnKeyPressed=OnKeyboardClick AbsentKeys=AbsentWords CorrectKeys=MatchedWords PresentKeys=PresentWords/>
+<Keyboard OnKeyPressed=OnKeyboardClick AbsentKeys=AbsentLetters CorrectKeys=MatchedLetters PresentKeys=PresentLetters/>
 
