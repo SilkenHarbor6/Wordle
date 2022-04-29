@@ -17,6 +17,19 @@ namespace Wordlzor.Components
 {
     public partial class Game
     {
+        #region Misc
+
+        /// <summary>
+        /// Reference to main container
+        /// </summary>
+        private ElementReference _mainContainer;
+
+        /// <summary>
+        /// List of valid keys to press
+        /// </summary>
+        private List<string> _validKeys = new List<string>() { "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "a", "s", "d", "f", "g", "h", "j", "k", "l", "z", "x", "c", "v", "b", "n", "m" };
+        #endregion
+
         #region Game state properties
 
         /// <summary>
@@ -81,7 +94,14 @@ namespace Wordlzor.Components
 
         #region Overrides
 
-        protected override async Task OnInitializedAsync() => _wordList = await HttpClient.GetFromJsonAsync<List<string>>("data/words.json");
+        protected override async Task OnInitializedAsync()
+        {
+            // Load word list
+            _wordList = await HttpClient.GetFromJsonAsync<List<string>>("data/words.json");
+
+            // Focus when initializing
+            await JSRuntime.InvokeVoidAsync("window.FocusElement", _mainContainer);
+        }
 
         #endregion
 
@@ -201,7 +221,11 @@ namespace Wordlzor.Components
                 // Send normal key
                 else
                 {
-                    await OnKeyboardClick(e.Key);
+                    // Only if it's a valid key
+                    if (_validKeys.Contains(e.Key))
+                    {
+                        await OnKeyboardClick(e.Key);
+                    }
                 }
             }
         }
