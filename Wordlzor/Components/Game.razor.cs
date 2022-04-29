@@ -35,7 +35,7 @@ namespace Wordlzor.Components
         /// <summary>
         /// Word to guess
         /// </summary>
-        private string _word = "house";
+        private string _word = "azure";
 
         /// <summary>
         /// Game state
