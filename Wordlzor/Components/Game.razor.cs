@@ -169,6 +169,9 @@ namespace Wordlzor.Components
                                 await JSRuntime.InvokeVoidAsync("alert", "Not a valid word!");
                             }
                         }
+                        else {
+                            await JSRuntime.InvokeVoidAsync("alert", "Fill all the letters, it's a 5 letter word!");
+                        }
                     }
                     // This case is when the uses clicks on a letter from the keyboard
                     else
