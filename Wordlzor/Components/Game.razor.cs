@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Components.WebAssembly.Http;
 using Microsoft.JSInterop;
 using Wordlzor;
+using BlazorApplicationInsights;
 
 namespace Wordlzor.Components
 {
@@ -90,6 +91,9 @@ namespace Wordlzor.Components
         [Inject]
         public IJSRuntime JSRuntime { get; set; }
 
+        [Inject]
+        public IApplicationInsights AppInsights { get; set; }
+
         #endregion
 
         #region Overrides
@@ -98,6 +102,9 @@ namespace Wordlzor.Components
         {
             // Load word list
             _wordList = await HttpClient.GetFromJsonAsync<List<string>>("data/words.json");
+
+            // Track event that game starter
+            await AppInsights.TrackEvent("Game started");
         }
 
         #endregion
@@ -146,16 +153,25 @@ namespace Wordlzor.Components
 
                                     // Show message
                                     await JSRuntime.InvokeVoidAsync("alert", "Congratulations! You guessed the word!");
+
+                                    // Track event that game finished
+                                    await AppInsights.TrackEvent("Game finished");
                                 }
 
                                 // Check if we are on the last iteration
                                 if (_currentIteration + 1 == _iterations)
                                 {
-                                    // Update game state to not continue
-                                    _finished = true;
+                                    if (!_finished)
+                                    {
+                                        // Update game state to not continue
+                                        _finished = true;
 
-                                    // Show message
-                                    await JSRuntime.InvokeVoidAsync("alert", "Unlucky! Try again!");
+                                        // Show message
+                                        await JSRuntime.InvokeVoidAsync("alert", "Unlucky! Try again!");
+
+                                        // Track event that game ended
+                                        await AppInsights.TrackEvent("Game ended");
+                                    }
                                 }
 
                                 // In any case, if the word is correct and we didn't guess, next iteration
@@ -163,12 +179,20 @@ namespace Wordlzor.Components
                             }
                             else
                             {
+                                // Not a valid word
                                 await JSRuntime.InvokeVoidAsync("alert", "Not a valid word!");
+
+                                // Track event that user entered a bad word
+                                await AppInsights.TrackEvent("Bad word entered");
                             }
                         }
                         else
                         {
+                            // Fill all tiles
                             await JSRuntime.InvokeVoidAsync("alert", "Fill all the letters, it's a 5 letter word!");
+
+                            // Track event that user didn't fill the entire word
+                            await AppInsights.TrackEvent("Word not filled");
                         }
                     }
                     // This case is when the uses clicks on a letter from the keyboard
@@ -179,6 +203,9 @@ namespace Wordlzor.Components
                         {
                             // Concat the new letter
                             _wordDictionary[_currentIteration] += key;
+
+                            // Track event that user entered a letter
+                            await AppInsights.TrackEvent("Letter entered: " + key);
                         }
                     }
                 }
@@ -196,6 +223,9 @@ namespace Wordlzor.Components
 
                         // Add to the dictionary of words with the new iteration
                         _wordDictionary[_currentIteration] = newWord;
+
+                        // Track event that user started new iteration
+                        await AppInsights.TrackEvent("New iteration started");
                     }
                 }
 
