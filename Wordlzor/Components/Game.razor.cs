@@ -16,6 +16,60 @@ using BlazorApplicationInsights;
 
 namespace Wordlzor.Components
 {
+    public struct Iteration
+    {
+        public Iteration(string word)
+        {
+            PrepareMaxAmountLetters(word);
+        }
+        Dictionary<char, int> MaxAmountLetters = new Dictionary<char, int>();
+        Dictionary<char, int> CurrentAmountLetters = new Dictionary<char, int>();
+        public void PrepareMaxAmountLetters(string currentWord)
+        {
+            foreach (var item in currentWord)
+            {
+                if (MaxAmountLetters.ContainsKey(item))
+                {
+                    MaxAmountLetters[item]++;
+                }
+                else
+                {
+                    MaxAmountLetters.Add(item, 1);
+                }
+            }
+        }
+        public void ResetCurrentAmountLetters()
+        {
+            CurrentAmountLetters = new Dictionary<char, int>();
+        }
+        public bool CheckLetter(char letter)
+        {
+            if (MaxAmountLetters.ContainsKey(letter))
+            {
+                if (!CurrentAmountLetters.ContainsKey(letter))
+                {
+                    CurrentAmountLetters.Add(letter, 1);
+                    return true;
+                }
+                else
+                {
+                    if (CurrentAmountLetters[letter] < MaxAmountLetters[letter])
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+    }
     public partial class Game
     {
         #region Misc
@@ -36,7 +90,7 @@ namespace Wordlzor.Components
         /// <summary>
         /// Word to guess
         /// </summary>
-        private string _word = "azure";
+        private string _word = "dino";
 
         /// <summary>
         /// Game state
@@ -46,7 +100,7 @@ namespace Wordlzor.Components
         /// <summary>
         /// Iterations to guess the word
         /// </summary>
-        private int _iterations = 5;
+        private int _iterations = 6;
 
 
         /// <summary>
@@ -54,6 +108,7 @@ namespace Wordlzor.Components
         /// </summary>
         private int _currentIteration = 0;
 
+        private Iteration hasLetter;
 
         /// <summary>
         /// Dictionary of guesses, for each entry we have a word
@@ -100,9 +155,12 @@ namespace Wordlzor.Components
 
         protected override async Task OnInitializedAsync()
         {
+            Random rnd = new Random();
             // Load word list
             _wordList = await HttpClient.GetFromJsonAsync<List<string>>("data/words.json");
-
+            int maxnumber = _wordList.Count() + 1;
+            _word = _wordList[(int)rnd.NextInt64(0, maxnumber)];
+            hasLetter = new Iteration(_word);
             // Track event that game starter
             await AppInsights.TrackEvent("Game started");
         }
@@ -140,7 +198,7 @@ namespace Wordlzor.Components
                     else if (key == "👌")
                     {
                         // Only if the word is completed
-                        if (wordFromDictionaryLength == 5)
+                        if (wordFromDictionaryLength == _word.Length)
                         {
                             // Check if the word is a valid 5 letter word
                             if (_wordList.Contains(wordFromDictionary))
@@ -189,7 +247,7 @@ namespace Wordlzor.Components
                         else
                         {
                             // Fill all tiles
-                            await JSRuntime.InvokeVoidAsync("alert", "Fill all the letters, it's a 5 letter word!");
+                            await JSRuntime.InvokeVoidAsync("alert", $"Fill all the letters, it's a {_word.Length} letter word!");
 
                             // Track event that user didn't fill the entire word
                             await AppInsights.TrackEvent("Word not filled");
@@ -199,7 +257,7 @@ namespace Wordlzor.Components
                     else
                     {
                         // If the word is less thant 5 letters
-                        if (wordFromDictionaryLength <= 5)
+                        if (wordFromDictionaryLength <= _word.Length)
                         {
                             // Concat the new letter
                             _wordDictionary[_currentIteration] += key;
@@ -320,6 +378,7 @@ namespace Wordlzor.Components
                 else
                 {
                     // Return type for older words
+
                     return GetType(_wordDictionary[iteration], _word, letter, index);
                 }
             }
@@ -338,6 +397,10 @@ namespace Wordlzor.Components
         /// <returns></returns>
         private string GetType(string word1, string word2, string letter, int index)
         {
+            if (index==0)
+            {
+                hasLetter.ResetCurrentAmountLetters();
+            }
             // Get index letter from user's word
             var indexInputLetterWord = word1[index].ToString().ToLowerInvariant();
 
@@ -349,25 +412,47 @@ namespace Wordlzor.Components
             {
                 // Set matched list for correct
                 SetMatchedLists(letter, "Correct");
-
-                // Return correct for styling purposes
-                return "Correct";
+                if (hasLetter.CheckLetter(Convert.ToChar(letter)))
+                {
+                    // Return correct for styling purposes
+                    return "Correct";
+                }
+                else
+                {
+                    return "Absent";
+                }
             }
             else if (word2.ToLowerInvariant().Contains(letter))
             {
                 // Set matched list for present
                 SetMatchedLists(letter, "Present");
 
-                // Return present for styling purposes
-                return "Present";
+                if (hasLetter.CheckLetter(Convert.ToChar(letter)))
+                {
+                    // Return correct for styling purposes
+                    return "Present";
+                }
+                else
+                {
+                    return "Absent";
+                }
+                
             }
             else
             {
                 // Set matched list for absent
                 SetMatchedLists(letter, "Absent");
 
-                // Return absent for styling purposes
-                return "Absent";
+                if (hasLetter.CheckLetter(Convert.ToChar(letter)))
+                {
+                    // Return correct for styling purposes
+                    return "Absent";
+                }
+                else
+                {
+                    return "Absent";
+                }
+                
             }
         }
 

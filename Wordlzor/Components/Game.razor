@@ -5,7 +5,7 @@
         @for (var i = 0; i < _iterations; i++)
         {
             <div class="tile-container">
-                @for (var j = 0; j < 5; j++)
+                @for (var j = 0; j < @_word.Length; j++)
                 {
                     var letter = @GetLetterFromWord(j, i);
                     <Tile Letter="@letter" Type="@GetTypeFromWord(j, letter, i)"></Tile>
