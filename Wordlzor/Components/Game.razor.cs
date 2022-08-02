@@ -72,6 +72,9 @@ namespace Wordlzor.Components
     }
     public partial class Game
     {
+        [Parameter]
+        public string LocalWordle { get; set; } = "";
+        public string LocalTitle { get; set; }
         #region Misc
 
         /// <summary>
@@ -156,8 +159,24 @@ namespace Wordlzor.Components
         protected override async Task OnInitializedAsync()
         {
             Random rnd = new Random();
+            string FileUrl="";
+            switch (LocalWordle)
+            {
+                case "isaac":
+                    LocalTitle = "TBOI";
+                    FileUrl = "isaac_words.json";
+                    break;
+                case "dota":
+                    LocalTitle = "DOTA 2";
+                    FileUrl = "dota_words.json";
+                    break;
+                default:
+                    LocalTitle = "Dino's Cafe";
+                    FileUrl = "words.json";
+                    break;
+            }
             // Load word list
-            _wordList = await HttpClient.GetFromJsonAsync<List<string>>("data/words.json");
+            _wordList = await HttpClient.GetFromJsonAsync<List<string>>($"data/{FileUrl}");
             int maxnumber = _wordList.Count() + 1;
             _word = _wordList[(int)rnd.NextInt64(0, maxnumber)];
             hasLetter = new Iteration(_word);

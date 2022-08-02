@@ -1,4 +1,9 @@
 ﻿@page "/"
 
-<Wordlzor.Components.Game  />
+<Wordlzor.Components.Game LocalWordle="@Wordle" />
 
+@code{
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Wordle { get; set; } = "";
+}

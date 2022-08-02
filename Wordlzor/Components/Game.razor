@@ -1,6 +1,7 @@
 ﻿<div @ref=@_mainContainer class="main-container" tabindex="0" @onkeydown=@KeyDown>
     <Wordlzor.Components.Header />
-
+    <br />
+    <div class="title">You are playing: @LocalTitle Wordle</div>
     <div class="container">
         @for (var i = 0; i < _iterations; i++)
         {
@@ -13,8 +14,7 @@
             </div>
         }
     </div>
-
     <Keyboard OnKeyPressed=OnKeyboardClick AbsentKeys=AbsentLetters CorrectKeys=MatchedLetters PresentKeys=PresentLetters />
 </div>
 
-<Wordlzor.Components.Modal OnClose=Focus />
+@*<Wordlzor.Components.Modal OnClose=Focus />*@
